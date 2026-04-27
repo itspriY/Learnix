@@ -77,7 +77,7 @@ const Login = () => {
       toast.success(registerData.message || "Signup successful.");
     }
     if(registerError){
-      toast.error(registerError.data?.message || "Signup failed");
+      toast.error(registerError?.data?.message || "Signup failed");
     }
     if(loginIsSuccess && loginData){
       toast.success(loginData.message || "Login successful.");
@@ -85,7 +85,7 @@ const Login = () => {
 
     } 
     if(loginError){
-      toast.error(loginError.data?.message || "Login failed");
+      toast.error(loginError?.data?.message || "Login failed");
     }
 
   },[

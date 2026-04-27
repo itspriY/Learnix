@@ -14,15 +14,37 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { DarkMode } from "@/DarkMode";
 import {Sheet,SheetClose, SheetContent,  SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "./sheet";
-import { Separator } from "@radix-ui/react-dropdown-menu";
-import { Link } from "react-router-dom";
+import { Separator } from  "@radix-ui/react-dropdown-menu";
+import { Link,useNavigate } from "react-router-dom";
 
 import {toast} from "sonner";
 import {useSelector }from "react-redux";
+import { useLogoutUserMutation } from "@/features/api/authApi";
 
 
 const Navbar = () => {
-  const user = true;
+  const { user } = useSelector((store) => store.auth);
+
+  const [logoutUser , {data , isSuccess}] = useLogoutUserMutation();
+  const navigate = useNavigate();
+  const logoutHandler = async () => {
+    await logoutUser();
+  };
+  console.log(user);
+
+
+
+
+useEffect(()=> {
+  if(isSuccess){
+    toast.success(data?.message || "User Log out");
+    navigate("/login")
+  }
+
+
+
+},[isSuccess]);
+
 
   return (
     <div className="h-16 dark:bg-[#04257a] bg-white border-b dark:border-b-gray-800 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-10" >
@@ -54,20 +76,17 @@ const Navbar = () => {
             Learnix
           </DropdownMenuItem>
           <DropdownMenuItem><Link to="Mylearning"> Mylearning </Link></DropdownMenuItem>
-          <DropdownMenuItem>
-            Edit Profile
-            
-          </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem><Link to="Profile"> Edit Profile</Link></DropdownMenuItem>
+          <DropdownMenuItem onClick ={logoutHandler} className ="cursor-pointer">
             Log out
             
           </DropdownMenuItem>
           
         </DropdownMenuGroup>
         {user?.role === "instructor" && (
-          <>
+        <>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Dashboard</DropdownMenuItem>
+        <DropdownMenuItem><Link to="/admin/dashboard">Dashboard</Link></DropdownMenuItem>
         </>
         )}
         </DropdownMenuContent>
@@ -75,8 +94,11 @@ const Navbar = () => {
 ):(
           
     <div className ="flex items-center gap-2">
-      <Button variant="outline">Login</Button>
-      <Button>Signup</Button>
+      <Button variant="outline" onClick={() => navigate("/login")}> Login</Button>
+
+<Button variant="outline" onClick={() => navigate("/login")}>
+  Signup
+</Button>
     </div>
   )}
   <DarkMode/>
@@ -87,7 +109,7 @@ const Navbar = () => {
 
  <div className="flex md:hidden items-center justify-between px-4 h-full">
   <h1 className="font-extrabold text-2xl"> Learnix </h1>
-  <MobileNavbar />
+  <MobileNavbar user = {user}/>
  </div>
 </div>
   );
@@ -95,8 +117,9 @@ const Navbar = () => {
 
 export default Navbar;
 
-const MobileNavbar = () => {
-  const role ="instructor";
+const MobileNavbar = ({user}) => {
+  const navigate = useNavigate();
+  
   return (
 
     <Sheet>
@@ -116,15 +139,15 @@ const MobileNavbar = () => {
         <Separator className="mr-2"/>
         <nav className ="flex flex-col space-y-4">
           
-            <Link to ="/Mylearning">Mylearning</Link>
+            <Link to ="/mylearning">My learning</Link>
             <Link to ="/profile">Edit profile</Link>
             <p>Log out</p>
             </nav>
           
-        {role ==="instructor"&& (
+       {user?.role ==="instructor"&& (
         <SheetFooter>
            <SheetClose asChild>
-          <Button type="submit"> Dashboard </Button>
+           <Button type="submit" onClick={()=> navigate("/admin/dashboard")}>Dashboard</Button>
           </SheetClose>
         </SheetFooter>
           )}

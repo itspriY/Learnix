@@ -40,3 +40,29 @@
 .read-the-docs {
   color: #888;
 }
+
+
+.ProseMirror {
+  min-height: 150px;
+  padding: 12px;
+  outline: none;
+  font-size: 14px;
+  line-height: 1.5;
+  color: black; /* 🔥 important */
+}
+
+.ProseMirror:focus {
+  outline: none;
+}
+
+.ProseMirror p {
+  margin: 0;
+}
+
+.ProseMirror ul {
+  padding-left: 20px;
+}
+
+.ProseMirror li {
+  margin-bottom: 4px;
+}
