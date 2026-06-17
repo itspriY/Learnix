@@ -33,6 +33,7 @@ const MyLearningSkeleton = () => (
     {[...Array(3)].map((_, index) => (
       <div
         key={index}
+        course ={Course}
         className="bg-gray-300 dark:bg-gray-700 rounded-lg h-40 animate-pulse"
       ></div>
     ))}

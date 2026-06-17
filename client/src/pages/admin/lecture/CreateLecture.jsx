@@ -19,7 +19,7 @@ const CreateLecture = () => {
 
     const [createLecture, { data, isLoading, error, isSuccess }] = useCreateLectureMutation();
 
-    const { data: lectureData, isLoading: lectureLoading, isError: lectureError, refetch,} = useGetCourseLectureQuery(courseId);
+    const { data: lectureData, isLoading: lectureLoading, isError: lectureError, refetch, } = useGetCourseLectureQuery(courseId);
 
 
 
@@ -31,11 +31,11 @@ const CreateLecture = () => {
     useEffect(() => {
         if (isSuccess) {
             refetch();
-            toast.success(data?.message || "Lecture created successfully");
+            toast.success(data.message || "Lecture created successfully");
         }
 
         if (error) {
-            toast.error(error?.data?.message || error?.message || "Something went wrong");
+            toast.error(error.data.message || error.message || "Something went wrong");
         }
     }, [isSuccess, error]);
 
@@ -80,20 +80,23 @@ const CreateLecture = () => {
 
                 </div>
                 <div className="mt-10">
-                    {
-                        lectureLoading ? (
-                            <p>Loading lectures...</p>
-                        ) : lectureError ? (
-                            <p>Failed to load lectures</p>
-                        ) : lectureData.lectures.length === 0 ? (
-                            <p>No Lectures available</p>
-                        ) : (
-                            lectureData.lectures.map((lecture, index) => (
-                                <Lecture key={lecture._id} lecture = {lecture} courseId ={courseId} index ={index}/>
+                    {lectureLoading ? (
+                        <p>Loading lectures...</p>
+                    ) : lectureError ? (
+                        <p>Failed to load lectures.</p>
+                    ) : lectureData.lectures.length === 0 ? (
+                        <p>No lectures availabe</p>
+                    ) : (
+                        lectureData.lectures.map((lecture, index) => (
+                            <Lecture
+                                key={lecture._id}
+                                lecture={lecture}
+                                courseId={courseId}
+                                index={index}
+                            />
+                        ))
 
-                            ))
-                
-                        )}
+                    )}
 
                 </div>
             </div>

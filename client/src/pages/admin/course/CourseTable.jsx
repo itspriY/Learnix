@@ -62,7 +62,7 @@ const invoices = [
     totalAmount: "$300.00",
     paymentMethod: "Credit Card",
   },
-]
+];
 
 const CourseTable = () => {
   const {data, isLoading} = useGetCreatorCourseQuery();
@@ -70,7 +70,12 @@ const CourseTable = () => {
   const navigate = useNavigate();
 
     if (isLoading) return <h1>Loading...</h1>
+
+
     console.log("data ->", data);
+
+
+    
     return (
         <div className ="mt-10">
             <Button onClick={() => navigate(`create`)}>Create a new course</Button>

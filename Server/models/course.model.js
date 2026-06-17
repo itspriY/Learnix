@@ -1,4 +1,5 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
+
 
 const courseSchema =new mongoose.Schema({
     courseTitle:{
@@ -16,7 +17,7 @@ const courseSchema =new mongoose.Schema({
        type:String,
        required:true 
     },
-    couseLevel:{
+    courseLevel:{
         type:String,
         enum:["Beginner","Medium","Advance"]
 
